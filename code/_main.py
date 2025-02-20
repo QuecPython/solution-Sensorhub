@@ -22,8 +22,6 @@ def wait_network_ready():
         code = checkNet.waitNetworkReady(300)
         if code == (3, 1):
             logger.info("network has been ready.")
-            dataCall.setPDPContext(1, 0, 'BICSAPN', '', '', 0) #激活之前，应该先配置APN，这里配置第1路的APN
-            dataCall.activate(1)
             break
         else:
             logger.warn("network not ready, code: {}".format(code))
@@ -49,5 +47,9 @@ def create_app(name="SimpliKit", version="1.0.0", config_path="/usr/config.json"
 
 if __name__ == "__main__":
     wait_network_ready()
+
+    dataCall.setPDPContext(1, 0, 'BICSAPN', '', '', 0) #激活之前，应该先配置APN，这里配置第1路的APN
+    dataCall.activate(1)
+    
     app = create_app()
     app.run()
