@@ -205,10 +205,10 @@ class GnssService(object):
                     else:
                         logger.error("send gnss to qth server fail")
                 else:
-                    # 或者位移超过1km，则上报
+                    # 或者位移超过 50m，则上报
                     distance = gps_distance(prev_lat_and_lng[0], prev_lat_and_lng[1], lat, lng)
                     logger.debug('distance delta: {:f}'.format(distance))
-                    if distance > 1:
+                    if distance >= 0.05:
                         for _ in range(3):
                             with CurrentApp().qth_client:
                                 if CurrentApp().qth_client.sendGnss(nmea_data):
