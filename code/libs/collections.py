@@ -117,7 +117,7 @@ class OrderedDict(object):
         return '{}({})'.format(type(self).__name__, [(k, v) for k, v in self.items()])
 
     def __iter__(self):
-        return (node.data for node in self.__keys_link)
+        return (node.obj for node in self.__keys_link)
 
     def __setitem__(self, key, value):
         if key not in self.__storage:
