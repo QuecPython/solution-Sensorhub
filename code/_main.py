@@ -19,7 +19,7 @@ logger = getLogger(__name__)
 def wait_network_ready():
     for _ in range(3):
         logger.info("wait network ready...")
-        code = checkNet.waitNetworkReady(60)
+        code = checkNet.waitNetworkReady(300)
         if code == (3, 1):
             logger.info("network has been ready.")
             dataCall.setPDPContext(1, 0, 'BICSAPN', '', '', 0) #激活之前，应该先配置APN，这里配置第1路的APN
