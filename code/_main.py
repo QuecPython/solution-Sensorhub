@@ -1,6 +1,7 @@
 import net
 import utime
 import checkNet
+import dataCall
 from misc import Power
 from usr.libs import Application
 from usr.libs.logging import getLogger
@@ -21,6 +22,8 @@ def wait_network_ready():
         code = checkNet.waitNetworkReady(60)
         if code == (3, 1):
             logger.info("network has been ready.")
+            dataCall.setPDPContext(1, 0, 'BICSAPN', '', '', 0) #激活之前，应该先配置APN，这里配置第1路的APN
+            dataCall.activate(1)
             break
         else:
             logger.warn("network not ready, code: {}".format(code))
