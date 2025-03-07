@@ -3,6 +3,8 @@ import quecgnss
 from usr.libs import CurrentApp
 from usr.libs.threading import Thread
 from usr.libs.logging import getLogger
+import _thread
+from .import qth_client
 try:
     from math import sin, asin, cos, radians, fabs, sqrt
 except:
@@ -188,6 +190,7 @@ class GnssService(object):
                             lng = lng_high + lng_low
                             if nmea_tuple[5] == "W":
                                 lng = -lng
+                                
                             break
             
             if nmea_data is not None:
@@ -218,3 +221,5 @@ class GnssService(object):
                         else:
                             logger.error("send gnss to qth server fail")
             utime.sleep(3)
+
+

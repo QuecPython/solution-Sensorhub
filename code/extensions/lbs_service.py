@@ -3,7 +3,7 @@ import utime
 from usr.libs import CurrentApp
 from usr.libs.threading import Thread
 from usr.libs.logging import getLogger
-
+import _thread  
 
 logger = getLogger(__name__)
 
@@ -57,3 +57,25 @@ class LbsService(object):
             
             logger.debug("send lbs data to qth server success, next report will be after 1800 seconds")
             utime.sleep(1800)
+            
+    def put_lbs(self):
+            while True:
+                lbs_data = self.read()
+                if lbs_data is None:
+                    utime.sleep(2)
+                    continue
+
+                for _ in range(3):
+                    with CurrentApp().qth_client:
+                        if CurrentApp().qth_client.sendLbs(lbs_data):
+                            break
+                else:
+                    logger.debug("send lbs data to qth server fail, next report will be after 2 seconds")
+                    utime.sleep(2)
+                    continue
+                
+                logger.debug("send LBS data to qth server success")
+                break
+            
+
+                
