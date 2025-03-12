@@ -1,8 +1,8 @@
 from usr.libs.threading import Lock
 from usr.libs.logging import getLogger
 from usr import Qth
-
-
+from usr.libs import CurrentApp
+from . import lbs_service
 logger = getLogger(__name__)
 
 
@@ -24,7 +24,7 @@ class QthClient(object):
         app.register("qth_client", self)
         Qth.init()
         Qth.setProductInfo(app.config["QTH_PRODUCT_KEY"], app.config["QTH_PRODUCT_SECRET"])
-        Qth.setServer('mqtt://iot-south.acceleronix.io:1883')
+        Qth.setServer(app.config["QTH_SERVER"])
         Qth.setEventCb(
             {
                 "devEvent": self.eventCallback, 
@@ -47,7 +47,6 @@ class QthClient(object):
     
     def stop(self):
         Qth.stop()
-    
     def sendTsl(self, mode, value):
         return Qth.sendTsl(mode, value)
 
@@ -76,15 +75,38 @@ class QthClient(object):
     def readTslCallback(self, ids, pkgId):
         logger.info("readTsl ids:{} pkgId:{}".format(ids, pkgId))
         value=dict()
-        for id in ids:
-            if 1 == id:
-                value[1]=180.25
-            elif 2 == id:
-                value[2]=30
-            elif 3 == id:
-                value[3]=True
-        Qth.ackTsl(1, value, pkgId)
+        
+        temp1, humi =CurrentApp().sensor_service.get_temp1_and_humi()
+        press, temp2 = CurrentApp().sensor_service.get_press_and_temp2()
+        r,g,b = CurrentApp().sensor_service.get_rgb888()
 
+        value={
+            3:temp1,
+            4:humi,
+            5:temp2,
+            6:press,
+            7:{1:r, 2:g, 3:b},
+    
+        }
+        lbs=lbs_service.LbsService()
+        lbs.put_lbs()
+
+
+        
+        for id in ids:
+            if 3 == id:
+                value[3]=temp1
+            elif 4 == id:
+                value[4]=humi
+            elif 5 == id:
+                value[5]=temp2
+            elif 6 == id:
+                value[6]=press
+            elif 7 == id:
+                value[7]={1:r, 2:g, 3:b}
+        Qth.ackTsl(1, value, pkgId)
+       
+        
     def recvTslServerCallback(self, serverId, value, pkgId):
         logger.info("recvTslServer serverId:{} value:{} pkgId:{}".format(serverId, value, pkgId))
         Qth.ackTslServer(1, serverId, value, pkgId)

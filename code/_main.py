@@ -1,8 +1,5 @@
-import net
 import utime
-import checkNet
 import dataCall
-from misc import Power
 from usr.libs import Application
 from usr.libs.logging import getLogger
 from usr.extensions import (
@@ -14,23 +11,6 @@ from usr.extensions import (
 
 
 logger = getLogger(__name__)
-
-
-def wait_network_ready():
-    for _ in range(3):
-        logger.info("wait network ready...")
-        code = checkNet.waitNetworkReady(300)
-        if code == (3, 1):
-            logger.info("network has been ready.")
-            break
-        else:
-            logger.warn("network not ready, code: {}".format(code))
-            net.setModemFun(0, 0)
-            utime.sleep_ms(200)
-            net.setModemFun(1, 0)
-    else:
-        logger.warn("power restart")
-        Power.powerRestart()
 
 
 def create_app(name="SimpliKit", version="1.0.0", config_path="/usr/config.json"):
@@ -46,9 +26,15 @@ def create_app(name="SimpliKit", version="1.0.0", config_path="/usr/config.json"
 
 
 if __name__ == "__main__":
-    wait_network_ready()
+    while True:
+        lte = dataCall.getInfo(1, 0)
+        if lte[2][0] == 1:
+            logger.debug('lte network normal')
+            break
+        logger.debug('wait lte network normal...')
+        utime.sleep(3)
 
-    dataCall.setPDPContext(1, 0, 'BICSAPN', '', '', 0) #激活之前，应该先配置APN，这里配置第1路的APN
+    dataCall.setPDPContext(1, 0, 'BICSAPN', '', '', 0)  # 激活之前，应该先配置APN，这里配置第1路的APN
     dataCall.activate(1)
     
     app = create_app()

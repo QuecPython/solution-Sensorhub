@@ -40,6 +40,20 @@ class SensorService(object):
         Thread(target=self.start_update).start()
 
 
+    def get_temp1_and_humi(self):
+        return self.shtc3.getTempAndHumi()
+    
+    def get_press_and_temp2(self):
+        return self.lps22hb.getTempAndPressure()
+    def get_rgb888(self):
+            rgb888 = self.tcs34725.getRGBValue()
+            logger.debug("R: {}, G: {}, B: {}".format((rgb888 >> 16) & 0xFF, (rgb888 >> 8) & 0xFF, rgb888 & 0xFF))
+
+            r = (rgb888 >> 16) & 0xFF
+            g = (rgb888 >> 8) & 0xFF
+            b = rgb888 & 0xFF
+            return r, g, b       
+
     def start_update(self):
         prev_temp1 = None
         prev_humi = None
