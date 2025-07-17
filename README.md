@@ -1,103 +1,106 @@
-# 快速上手
-
-## 硬件准备
-
-Windows电脑一台，建议 `Win10` 系统。
-
-一套[EC200U-EU Quecpython 标准开发板](https://python.quectel.com/doc/Getting_started/zh/evb/ec200x-evb.html)（含天线，Type-C数据线）
-
-一张能够正常使用的SIM卡
-
-## 环境搭建
-
-- 下载并安装EC200EU系列模组驱动：[QuecPython_USB_Driver_Win10_ASR](https://images.quectel.com/python/2023/04/Quectel_Windows_USB_DriverA_Customer_V1.1.13.zip)。
-
-
-- 下载并安装 [VSCode](https://code.visualstudio.com/)。
-- 下载并解压 [QPYCom](https://images.quectel.com/python/2022/12/QPYcom_V3.6.0.zip) 工具到电脑的合适位置。
-- 下载[固件包](../../solutions/SimpliKit/EC200UEUAAR05A01M08_TEST0222.zip  )。
-- 下载[实验源码](https://gitee.com/dustin-wei/solution-sensorhub) 
-
-## 硬件连接
-
-按照下图硬件连接：
-
-<img src="./media/EVB_link1.png" style="zoom: 25%;" /><img src="./media/EVB_link2.png" style="zoom: 20%;" />
+# quick_start
 
 
 
-1. 将天线连接至标识有 `LTE` 字样的天线连接座上。
+## Hardware preparation
 
-2. 使用 Type-C 数据线连接开发板和电脑。
+A Windows computer, recommended 'Win10' system.
 
-3. 在图示位置SIM1卡槽插入可用的 Nano SIM 卡
+A set of [EC200U-EU Quecpython Standard Development Board](https://python.quectel.com/doc/Getting_started/zh/evb/ec200x-evb.html) (including antenna and Type-C data cable)
+
+A functioning SIM card that is usable normally
+
+## programming environment setup
+
+- Download and install the EC200EU series module driver：[QuecPython_USB_Driver_Win10_ASR](https://images.quectel.com/python/2023/04/Quectel_Windows_USB_DriverA_Customer_V1.1.13.zip).
+- Download and install [VSCode](https://code.visualstudio.com/).
+- Download and unpack [QPYCom] (https://images.quectel.com/python/2022/12/QPYcom_V3.6.0.zip) tools to the right position of a computer.
+- download [flash zip from sd card](./firmware/8915DM_cat1_open_EC200UEUAAR05A01M08_TEST0222_merge.pac).
+- download [Experimental source code](https://github.com/aaronchenzhihe/solution-Sensorhub/tree/main)
+
+## hardware connection
 
 
 
-## 设备开发
+Follow the following diagram to connect the hardware:
 
-- ### 开机
+<img src="./media/EVB_link1.png" style="zoom: 25%;" />[<img src="./media/EVB_link2.png" style="zoom: 20%;" />
 
-完成硬件连接工作后，当PWR，SCK1亮起或电脑设备管理器的端口列表出现包含Quectel USB字样的COM口，表示开机成功
+1. Connect the antenna to the antenna connector marked with 'LTE'.
 
-<img src="./media/USB.png"  />
+2. Use the Type-C data cable to connect the development board to the computer.
+
+3. Insert a Nano SIM card into the SIM1 slot in the figure
+
+## device development
 
 
 
-- ### 烧录固件包
+- ### starting up
 
-参考[此章节](https://python.quectel.com/doc/Application_guide/zh/dev-tools/QPYcom/qpycom-dw.html#下载固件)，烧录[固件包](../../solutions/SimpliKit/EC200UEUAAR05A01M08_TEST0222.zip )至开发板。
+After the hardware connection is complete, when the PWR, SCK1 lights up or the COM port containing Quectel USB appears in the port list of the computer device Manager, it indicates that the power on is successful
 
-- ### 脚本导入与运行
+[<img src="./media/USB.png"  />](https://github.com/aaronchenzhihe/solution-Sensorhub/blob/main/media/USB.png)
 
-1.参考[此章节](https://python.quectel.com/doc/Getting_started/zh/first_python.html#PC与模组间的文件传输)，将源码目录下的code文件夹中的所有文件按原目录结构导入到模组文件系统中，如下图所示
 
-<img src="./media/Qpycom.png"  />
 
-2.参考[此章节](https://python.quectel.com/doc/Getting_started/zh/first_python.html#执行脚本文件)，执行主程序文件_main.py
+- ### Burn firmware package
 
-3.参考[此章节](https://python.quectel.com/doc/Getting_started/zh/first_python.html#停止程序运行)，停止程序运行。
 
-## 业务调试
+Refer to [this section](https://python.quectel.com/doc/Application_guide/zh/dev-tools/QPYcom/qpycom-dw.html#download-firmware), and flash the [firmware package](https://github.com/aaronchenzhihe/solution-Sensorhub/solutions/SimpliKit/EC200UEUAAR05A01M08_TEST0222.zip) onto the development board.
 
-### 程序启动
+- ### Script import and run
 
-执行_main.py脚本后，程序开始运行，会打印拨号信息，包括拨号状态、IP地址、DNS服务器地址，设备号等
+1.Refer to [this section](https://python.quectel.com/doc/Getting_started/zh/first_python.html#PC and module file transfer), and import all files in the code folder under the source code directory into the module file system according to the original directory structure, as shown in the following figure.
 
-<img src="./media/drivers_data.png"  />
+[<img src="./media/Qpycom.png"  />](https://github.com/aaronchenzhihe/solution-Sensorhub/blob/main/media/Qpycom.png)
+
+2. Refer to [this section](https://python.quectel.com/doc/Getting_started/zh/first_python.html#executing script files), and execute the main program file _main.py
+
+3. Refer to [this section](https://python.quectel.com/doc/Getting_started/zh/first_python.html#stop-the-program-execution), and stop the program from running.
+
+## Service debugging
+
+
+
+### start the application
+
+
+
+After the _main.py script is executed, the program starts to run and prints dial-up information, including dial-up status, IP address, DNS server address, and device number
+
+[<img src="./media/drivers_data.png"  />](https://github.com/aaronchenzhihe/solution-Sensorhub/blob/main/media/drivers_data.png)
 
 ### 🚩 **Warning**
 
-未插入SIM卡时，SCK1灯不会亮起，并且无法打印设备信息，插入SIM卡并重启设备后即可正常运行。
+
+
+When the SIM card is not inserted, the SCK1 light will not turn on and the device information cannot be printed. After inserting the SIM card and restarting the device, the device will run normally.
 
 <img src="./media/sim_erro.png"  />
 
-### 数据检测
+### data detection
 
-开始运行后每1s会打印一次检测到的温度1，湿度，气压，温度2，颜色的三原色的数据,
+After starting operation, the data of detected temperature 1, humidity, air pressure, temperature 2, and color of the three primary colors will be printed every 1s.
 
 <img src="./media/data.png"  />
 
-### 数据更新
+### data updating
 
-当检测以上4种的任一数据产生大于1或者原色产生大于150的变化时就会尝试上传云端更新数据，当上传成功时返回“send ret：True”，并且会提示是哪些数据发生了变化，APP读取云端最新数据进行数据更新。
+When detecting that any of the above four types of data has a change greater than 1 or primary color has a change greater than 150, it will try to upload updated data to the cloud. When the upload is successful, "send ret: True" is returned, and it will prompt which data has changed. The APP reads the latest data from the cloud for data update.
 
 <img src="./media/data_up.png"  />
 
 <img src="./media/yun.png"  />
 
-如果数据没有大于1的变化就会只在pqcom中打印当前检测的数据，不会发起上传云端。
+If the data does not change more than 1, only the current detected data will be printed in pqcom, and the cloud will not be uploaded.<img src="./media/data1.png"  />
 
-<img src="./media/data1.png"  />
-
-位置定位更新，当模组位移超过50米时，云端会刷新定位信息，app读取最新定位信息。
+Position positioning update. When the module displacement exceeds 50 meters, the cloud will refresh the positioning information, and the app will read the latest positioning information.
 
 <img src="./media/gnss.png"  />
 
-主动刷新APP数据，通过点击APP右上角刷新按键，APP会向服务器发起主动读取数据的指令，用于主动更新面板数据
+Actively refresh the APP data. By clicking the refresh button in the upper right corner of the APP, the APP will send an active data reading command to the server for actively updating the panel data.
 
-<img src="./media/APP.png" style="zoom: 67%;" />
+<img src="./media/app.png" style="zoom: 67%;" />
 
-温度，湿度，气压，颜色，Lbs数据被获取成功
-
-<img src="./media/data_get.png" style="zoom: 100%;" />
+Temperature, humidity, air pressure, color, Lbs data were obtained successfully.
